@@ -41,6 +41,7 @@
 		BF2BCD6F1B6F430300674CA5 /* networking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = networking.m; sourceTree = "<group>"; };
 		BF2BCD751B6F430300674CA5 /* networkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = networkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF2BCD7B1B6F430300674CA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF2BCD841B70760C00674CA5 /* ios-networking.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ios-networking.podspec"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +66,7 @@
 		BF2BCD611B6F430300674CA5 = {
 			isa = PBXGroup;
 			children = (
+				BF2BCD841B70760C00674CA5 /* ios-networking.podspec */,
 				BF2BCD6C1B6F430300674CA5 /* networking */,
 				BF2BCD791B6F430300674CA5 /* networkingTests */,
 				BF2BCD6B1B6F430300674CA5 /* Products */,
@@ -362,6 +364,7 @@
 				BF2BCD801B6F430300674CA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BF2BCD811B6F430300674CA5 /* Build configuration list for PBXNativeTarget "networkingTests" */ = {
 			isa = XCConfigurationList;
@@ -370,6 +373,7 @@
 				BF2BCD831B6F430300674CA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
