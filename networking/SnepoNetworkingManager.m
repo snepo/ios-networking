@@ -56,7 +56,8 @@
 #pragma mark - GET
 
 - (void)get:(NSString *)get withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError* error))failure {
-    [_operationManager GET:get parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString* path = [NSString stringWithFormat:@"%@%@",_baseUrl,get];
+    [_operationManager GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject);
         }

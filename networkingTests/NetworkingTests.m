@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "SnepoNetworkingManager.h"
 #import "APIResource.h"
 
 @interface NetworkingTests : XCTestCase
 
-@property (nonatomic, strong) APIResource* resource;
+@property (nonatomic, strong) APIResource* adventureResource;
 
 @end
 
@@ -20,23 +21,26 @@
 
 - (void)setUp {
     [super setUp];
-    _resource = [[APIResource alloc] init];
-    _resource.baseUrlString = @"http://aj-staging.snepo.com/";
-    _resource.apiPathString = @"api/v1/";
-    _resource.collectionName = @"adventures";
-    _resource.resourceName = @"adventure";
+    [SnepoNetworkingManager sharedManager].baseUrl = @"http://aj-staging.snepo.com/api/v1/";
+    _adventureResource = [[APIResource alloc] init];
+    _adventureResource.collectionName = @"adventures";
+    _adventureResource.resourceName = @"adventure";
+    _adventureResource.manager = [SnepoNetworkingManager sharedManager];
 }
 
 - (void)tearDown {
-    _resource = nil;
+    _adventureResource = nil;
     [super tearDown];
 }
 
 - (void)testExample {
+    
+    [_adventureResource getAllResourcesWithSuccess:nil failure:nil];
+    
     __block id blockData;
     
     runInMainLoop(^(BOOL *done) {
-        [_resource getAllResourcesWithSuccess:^(NSDictionary *data) {
+        [_adventureResource getAllResourcesWithSuccess:^(NSDictionary *data) {
             NSLog(@"Response: %@", data);
             blockData = data;
             *done = YES;
@@ -46,6 +50,9 @@
     });
     
     XCTAssertNotNil(blockData, @"");
+    XCTAssertEqualObjects([_adventureResource wrappedParametersForIdentifier:@(1) parameters:nil], @{@"adventure_id":@(1)});
+    XCTAssertEqualObjects([_adventureResource wrappedParametersForIdentifier:nil parameters:@{@"test":@"123"}], @{@"adventure":@{@"test":@"123"}});
+    XCTAssertEqualObjects([_adventureResource wrappedParametersForParameters:@{@"test":@"123"}], @{@"adventure":@{@"test":@"123"}});
 }
 
 - (void)testPerformanceExample {
@@ -60,7 +67,7 @@ static inline void runInMainLoop(void(^block)(BOOL *done)) {
     __block BOOL done = NO;
     block(&done);
     while (!done) {
-        [[NSRunLoop mainRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow:.1]];
+        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:.1]];
     }
 }
 

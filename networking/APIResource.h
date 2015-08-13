@@ -8,16 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
+@class SnepoNetworkingManager;
+
 @interface APIResource : NSObject
 
-@property (nonatomic, strong) NSString* baseUrlString;
-@property (nonatomic, strong) NSString* apiPathString;
 @property (nonatomic, strong) NSString* collectionName;
 @property (nonatomic, strong) NSString* resourceName;
+@property (nonatomic, strong) SnepoNetworkingManager* manager;
 
 - (void)getAllResourcesWithSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
-- (void)getResourceWithParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
+- (void)getResourceWithIdentifier:(id)identifier withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
+- (void)createResourceWithParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
+- (void)updateResourceWithIdentifier:(id)identifier parameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
+- (void)deleteResourceWithIdentifier:(id)identifier withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
 
-- (NSString *)getPathForCollection:(BOOL)collection;
+- (NSDictionary *)wrappedParametersForParameters:(NSDictionary *)parameters;
+- (NSDictionary *)wrappedParametersForIdentifier:(id)identifer parameters:(NSDictionary *)parameters;
 
 @end
