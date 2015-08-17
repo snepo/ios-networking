@@ -71,7 +71,8 @@
 #pragma mark - POST
 
 - (void)post:(NSString *)post withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError* error))failure {
-    [_operationManager POST:post parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString* path = [NSString stringWithFormat:@"%@%@",_baseUrl,post];
+    [_operationManager POST:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject);
         }
@@ -85,7 +86,8 @@
 #pragma mark - PATCH
 
 - (void)patch:(NSString *)patch withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {
-    [_operationManager PATCH:patch parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString* path = [NSString stringWithFormat:@"%@%@",_baseUrl,patch];
+    [_operationManager PATCH:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject);
         }
@@ -99,7 +101,8 @@
 #pragma mark - DELETE
 
 - (void)delete:(NSString *)delete withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {
-    [_operationManager DELETE:delete parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString* path = [NSString stringWithFormat:@"%@%@",_baseUrl,delete];
+    [_operationManager DELETE:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
             success(responseObject);
         }
