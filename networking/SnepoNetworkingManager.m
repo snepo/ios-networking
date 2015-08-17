@@ -53,6 +53,14 @@
     [_operationManager.requestSerializer setValue:name forHTTPHeaderField:@"X-User-Username"];
 }
 
+- (void)setBasicAuthWithUsername:(NSString *)username password:(NSString *)password {
+    if (!username) {
+        [_operationManager.requestSerializer clearAuthorizationHeader];
+    } else {
+        [_operationManager.requestSerializer setAuthorizationHeaderFieldWithUsername:username password:password];
+    }
+}
+
 #pragma mark - GET
 
 - (void)get:(NSString *)get withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError* error))failure {
