@@ -23,8 +23,11 @@
 }
 
 - (void)createResourceWithParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {
-    NSDictionary* wrappedParameters = @{_resourceName:parameters};
-    [_manager post:_resourceName withParameters:wrappedParameters withSuccess:success failure:failure];
+    NSDictionary* formattedParameters = @{_resourceName:parameters};
+    if ([_delegate respondsToSelector:@selector(resource:formatParameters:)]) {
+        formattedParameters = [_delegate resource:self formatParameters:parameters];
+    }
+    [_manager post:_resourceName withParameters:formattedParameters withSuccess:success failure:failure];
 }
 
 - (void)updateResourceWithIdentifier:(id)identifier parameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {

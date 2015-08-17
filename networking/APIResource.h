@@ -8,9 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+@class APIResource;
 @class SnepoNetworkingManager;
 
+@protocol APIResourceDelegate <NSObject>
+
+- (NSDictionary *)resource:(APIResource *)resource formatParameters:(NSDictionary *)parameters;
+
+@end
+
 @interface APIResource : NSObject
+
+@property (nonatomic, weak) id<APIResourceDelegate> delegate;
 
 @property (nonatomic, strong) NSString* collectionName;
 @property (nonatomic, strong) NSString* resourceName;
