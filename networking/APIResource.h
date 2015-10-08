@@ -13,6 +13,8 @@
 
 @protocol APIResourceDelegate <NSObject>
 
+@optional
+
 - (NSDictionary *)resource:(APIResource *)resource keyForId:(NSNumber *)uid;
 - (NSDictionary *)resource:(APIResource *)resource formatParameters:(NSDictionary *)parameters;
 
