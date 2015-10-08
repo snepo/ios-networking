@@ -19,6 +19,9 @@
 - (void)getResourceWithIdentifier:(id)identifier withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {
     NSString* key = [NSString stringWithFormat:@"%@_id",_resourceName];
     NSDictionary* parameters = @{key:identifier};
+    if ([_delegate respondsToSelector:@selector(resource:keyForId:)]) {
+        parameters = [_delegate resource:self keyForId:identifier];
+    }
     [_manager get:_resourceName withParameters:parameters withSuccess:success failure:failure];
 }
 
