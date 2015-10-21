@@ -16,6 +16,10 @@
     [_manager get:_collectionName withParameters:nil withSuccess:success failure:failure];
 }
 
+- (void)getResourcesWithParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {
+    [_manager get:_collectionName withParameters:parameters withSuccess:success failure:failure];
+}
+
 - (void)getResourceWithIdentifier:(id)identifier withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {
     NSString* key = [NSString stringWithFormat:@"%@_id",_resourceName];
     NSDictionary* parameters = @{key:identifier};
