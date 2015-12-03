@@ -12,7 +12,8 @@
 
 + (instancetype)sharedManager;
 
-@property (nonatomic, strong) NSString* baseUrl;
+- (instancetype)initWithBaseUrl:(NSString *)baseUrl;
++ (void)setSharedInstance:(SnepoNetworkingManager *)instance;
 
 - (void)setToken:(NSString *)token name:(NSString *)name;
 - (void)setBasicAuthWithUsername:(NSString *)username password:(NSString *)password;

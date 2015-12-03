@@ -10,24 +10,26 @@
 
 #import "AFNetworking.h"
 
+static SnepoNetworkingManager* _instance;
+
 @interface SnepoNetworkingManager ()
 
+@property (nonatomic, strong) NSString* baseUrl;
 @property (nonatomic, strong) AFHTTPRequestOperationManager* operationManager;
 
 @end
 
 @implementation SnepoNetworkingManager
 
++ (void)setSharedInstance:(SnepoNetworkingManager *)instance {
+    _instance = instance;
+}
+
 + (instancetype)sharedManager {
-    static id _instance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [[self alloc] init];
-    });
     return _instance;
 }
 
-- (id)init {
+- (instancetype)initWithBaseUrl:(NSString *)baseUrl {
     self = [super init];
     if (self) {
         _operationManager = [AFHTTPRequestOperationManager manager];
@@ -40,6 +42,8 @@
         AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
         [responseSerializer setRemovesKeysWithNullValues:YES];
         _operationManager.responseSerializer = responseSerializer;
+        
+        _baseUrl = baseUrl;
     }
     return self;
 }

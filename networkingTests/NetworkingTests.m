@@ -21,11 +21,11 @@
 
 - (void)setUp {
     [super setUp];
-    [SnepoNetworkingManager sharedManager].baseUrl = @"http://aj-staging.snepo.com/api/v1/";
+    SnepoNetworkingManager* snepoNetworkingManager = [[SnepoNetworkingManager alloc] initWithBaseUrl:@"http://aj-staging.snepo.com/api/v1/"];
+    [SnepoNetworkingManager setSharedInstance:snepoNetworkingManager];
     _adventureResource = [[APIResource alloc] init];
     _adventureResource.collectionName = @"adventures";
     _adventureResource.resourceName = @"adventure";
-    _adventureResource.manager = [SnepoNetworkingManager sharedManager];
 }
 
 - (void)tearDown {

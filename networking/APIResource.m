@@ -12,6 +12,14 @@
 
 @implementation APIResource
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _manager = [SnepoNetworkingManager sharedManager];
+    }
+    return self;
+}
+
 - (void)getAllResourcesWithSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure {
     [_manager get:_collectionName withParameters:nil withSuccess:success failure:failure];
 }
