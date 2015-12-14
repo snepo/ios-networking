@@ -2,7 +2,7 @@
 # platform :ios, '6.0'
 
 target 'networking' do
-pod 'AFNetworking'
+pod 'AFNetworking', '2.6.3'
 end
 
 target 'networkingTests' do
