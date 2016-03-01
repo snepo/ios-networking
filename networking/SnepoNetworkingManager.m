@@ -65,6 +65,10 @@ static SnepoNetworkingManager* _instance;
     }
 }
 
+- (void)setCachePolicy:(NSURLRequestCachePolicy)cachePolicy {
+    [_operationManager.requestSerializer setCachePolicy:cachePolicy];
+}
+
 #pragma mark - GET
 
 - (void)get:(NSString *)get withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError* error))failure {

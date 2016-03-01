@@ -49,7 +49,7 @@
 		BF2BCD7B1B6F430300674CA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF2BCD841B70760C00674CA5 /* ios-networking.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ios-networking.podspec"; sourceTree = "<group>"; };
 		BF2BCD851B708A4900674CA5 /* NetworkingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkingTests.m; sourceTree = "<group>"; };
-		BF2BCD871B7091FE00674CA5 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		BF2BCD871B7091FE00674CA5 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BF2BCD881B7093F100674CA5 /* SnepoNetworkingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnepoNetworkingManager.h; sourceTree = "<group>"; };
 		BF2BCD891B7093F100674CA5 /* SnepoNetworkingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnepoNetworkingManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
