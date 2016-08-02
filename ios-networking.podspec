@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/snepo/ios-networking.git", :tag => "0.0.1" }
   s.source_files = 'networking/*.{h,m}'
   s.requires_arc = true
-  s.platform     = :ios, ‘8.0’
+  s.platform     = :ios, '8.0'
   
-  s.dependency 'AFNetworking’, '~> 2.6.3’
+  # s.dependency 'AFNetworking', '~> 2.6.3'
 end
