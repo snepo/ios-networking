@@ -69,6 +69,10 @@ static SnepoNetworkingManager* _instance;
     [_operationManager.requestSerializer setCachePolicy:cachePolicy];
 }
 
+- (void)setTimeOut:(NSTimeInterval)timeout {
+    [_operationManager.requestSerializer setTimeoutInterval:timeout];
+}
+
 #pragma mark - GET
 
 - (void)get:(NSString *)get withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError* error))failure {

@@ -18,6 +18,7 @@
 - (void)setToken:(NSString *)token name:(NSString *)name;
 - (void)setBasicAuthWithUsername:(NSString *)username password:(NSString *)password;
 - (void)setCachePolicy:(NSURLRequestCachePolicy)cachePolicy;
+- (void)setTimeOut:(NSTimeInterval)timeout;
 
 - (void)get:(NSString *)get withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
 - (void)post:(NSString *)post withParameters:(NSDictionary *)parameters withSuccess:(void(^)(NSDictionary * data))success failure:(void(^)(NSError * error))failure;
