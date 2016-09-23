@@ -11,16 +11,19 @@ use_frameworks!
 examples
 
 initialize
+
         BLEManager.sharedInstance.delegate = self
         BLEManager.sharedInstance.initWithAdvertisedName(name: "fan jersey [L]")
         BLEManager.sharedInstance.startScanning()
         
 send data
-            var parameter = NSInteger(1)
-            let data = NSData(bytes: &parameter, length: 1)
-            BLEManager.sharedInstance.sendData(data: data)
+
+        var parameter = NSInteger(1)
+        let data = NSData(bytes: &parameter, length: 1)
+        BLEManager.sharedInstance.sendData(data: data)
             
 delegate
+
           // MARK: - BLEManagerDelegate
 
           extension ViewController: BLEManagerDelegate {
@@ -28,14 +31,12 @@ delegate
                   print("BluetoothDidConnect")
                  tryButton.isEnabled = true
               }
-    
               func BluetoothIsSearching() {
                  print("BluetoothIsSearching")
               }
               func BluetoothEnabled() {
                   print("BluetoothEnabled")
               }
-    
               func BluetoothDisabled() {
                  print("BluetoothDisabled")
               }
