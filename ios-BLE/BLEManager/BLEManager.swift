@@ -114,6 +114,7 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
     }
     
+    @available(iOS 10.0, *)
     private func getBluetoothState() -> CBManagerState {
         return _centralManager.state
     }
