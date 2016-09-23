@@ -1,14 +1,11 @@
 # BLEManager
 podfile
 
-use_frameworks!
+        use_frameworks!
 
         target <YOUR_TARGET_NAME> do
         pod 'BLEManager', :podspec => 'https://raw.githubusercontent.com/snepo/ios-pods/master/ios-BLE/BLEManager.podspec'
         end
-
-
-examples
 
 initialize
 
