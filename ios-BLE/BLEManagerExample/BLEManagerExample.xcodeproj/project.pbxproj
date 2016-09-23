@@ -7,33 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B629418E1D94FF8A00E1C331 /* BLEManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B62941891D94FF7B00E1C331 /* BLEManager.framework */; };
+		B629418F1D94FF8F00E1C331 /* BLEManager.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B62941891D94FF7B00E1C331 /* BLEManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B646C5C91D94AF83000C3584 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B646C5C81D94AF83000C3584 /* AppDelegate.swift */; };
 		B646C5CB1D94AF83000C3584 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B646C5CA1D94AF83000C3584 /* ViewController.swift */; };
 		B646C5CE1D94AF83000C3584 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B646C5CC1D94AF83000C3584 /* Main.storyboard */; };
 		B646C5D01D94AF83000C3584 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B646C5CF1D94AF83000C3584 /* Assets.xcassets */; };
 		B646C5D31D94AF83000C3584 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B646C5D11D94AF83000C3584 /* LaunchScreen.storyboard */; };
-		B646C6091D94AFFE000C3584 /* BLEManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B646C6041D94AFE7000C3584 /* BLEManager.framework */; };
-		B646C60B1D94B01B000C3584 /* BLEManager.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B646C6041D94AFE7000C3584 /* BLEManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B646C6031D94AFE7000C3584 /* PBXContainerItemProxy */ = {
+		B62941881D94FF7B00E1C331 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B646C5FE1D94AFE7000C3584 /* BLEManager.xcodeproj */;
+			containerPortal = B62941831D94FF7B00E1C331 /* BLEManager.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B646C5E41D94AFA2000C3584;
 			remoteInfo = BLEManager;
 		};
-		B646C6051D94AFE7000C3584 /* PBXContainerItemProxy */ = {
+		B629418A1D94FF7B00E1C331 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B646C5FE1D94AFE7000C3584 /* BLEManager.xcodeproj */;
+			containerPortal = B62941831D94FF7B00E1C331 /* BLEManager.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B646C5ED1D94AFA2000C3584;
 			remoteInfo = BLEManagerTests;
 		};
-		B646C6071D94AFF7000C3584 /* PBXContainerItemProxy */ = {
+		B629418C1D94FF8400E1C331 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B646C5FE1D94AFE7000C3584 /* BLEManager.xcodeproj */;
+			containerPortal = B62941831D94FF7B00E1C331 /* BLEManager.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = B646C5E31D94AFA2000C3584;
 			remoteInfo = BLEManager;
@@ -47,13 +47,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B646C60B1D94B01B000C3584 /* BLEManager.framework in CopyFiles */,
+				B629418F1D94FF8F00E1C331 /* BLEManager.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B62941831D94FF7B00E1C331 /* BLEManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BLEManager.xcodeproj; path = ../BLEManager.xcodeproj; sourceTree = "<group>"; };
 		B646C5C51D94AF83000C3584 /* BLEManagerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLEManagerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B646C5C81D94AF83000C3584 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B646C5CA1D94AF83000C3584 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -61,7 +62,6 @@
 		B646C5CF1D94AF83000C3584 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B646C5D21D94AF83000C3584 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B646C5D41D94AF83000C3584 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B646C5FE1D94AFE7000C3584 /* BLEManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BLEManager.xcodeproj; path = ../BLEManager/BLEManager.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,17 +69,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B646C6091D94AFFE000C3584 /* BLEManager.framework in Frameworks */,
+				B629418E1D94FF8A00E1C331 /* BLEManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B62941841D94FF7B00E1C331 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B62941891D94FF7B00E1C331 /* BLEManager.framework */,
+				B629418B1D94FF7B00E1C331 /* BLEManagerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		B646C5BC1D94AF83000C3584 = {
 			isa = PBXGroup;
 			children = (
-				B646C5FE1D94AFE7000C3584 /* BLEManager.xcodeproj */,
+				B62941831D94FF7B00E1C331 /* BLEManager.xcodeproj */,
 				B646C5C71D94AF83000C3584 /* BLEManagerExample */,
 				B646C5C61D94AF83000C3584 /* Products */,
 			);
@@ -106,15 +115,6 @@
 			path = BLEManagerExample;
 			sourceTree = "<group>";
 		};
-		B646C5FF1D94AFE7000C3584 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B646C6041D94AFE7000C3584 /* BLEManager.framework */,
-				B646C6061D94AFE7000C3584 /* BLEManagerTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -130,7 +130,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				B646C6081D94AFF7000C3584 /* PBXTargetDependency */,
+				B629418D1D94FF8400E1C331 /* PBXTargetDependency */,
 			);
 			name = BLEManagerExample;
 			productName = BLEManagerExample;
@@ -167,8 +167,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = B646C5FF1D94AFE7000C3584 /* Products */;
-					ProjectRef = B646C5FE1D94AFE7000C3584 /* BLEManager.xcodeproj */;
+					ProductGroup = B62941841D94FF7B00E1C331 /* Products */;
+					ProjectRef = B62941831D94FF7B00E1C331 /* BLEManager.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -179,18 +179,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		B646C6041D94AFE7000C3584 /* BLEManager.framework */ = {
+		B62941891D94FF7B00E1C331 /* BLEManager.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = BLEManager.framework;
-			remoteRef = B646C6031D94AFE7000C3584 /* PBXContainerItemProxy */;
+			remoteRef = B62941881D94FF7B00E1C331 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B646C6061D94AFE7000C3584 /* BLEManagerTests.xctest */ = {
+		B629418B1D94FF7B00E1C331 /* BLEManagerTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = BLEManagerTests.xctest;
-			remoteRef = B646C6051D94AFE7000C3584 /* PBXContainerItemProxy */;
+			remoteRef = B629418A1D94FF7B00E1C331 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -221,10 +221,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B646C6081D94AFF7000C3584 /* PBXTargetDependency */ = {
+		B629418D1D94FF8400E1C331 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BLEManager;
-			targetProxy = B646C6071D94AFF7000C3584 /* PBXContainerItemProxy */;
+			targetProxy = B629418C1D94FF8400E1C331 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
