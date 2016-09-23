@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
   s.author             = { 'Christos Bimpas' => 'christosbimpas@gmail.com' }
   s.platform     = :ios, '9.0'
   s.source       = { :git => 'https://github.com/christosbimpas/BLEManager.git' }
-  s.source_files  = 'ios-BLE/BLEManager/*.swift'
+  s.source_files  = 'ios-BLE/BLEManager/BLEManager/*.swift'
  
 end
