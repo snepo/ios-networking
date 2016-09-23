@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
  
   s.name         = 'BeaconsFinder'
-  s.version      = '0.1'
+  s.version      = '1.0'
   s.summary      = 'Beacons Finder'
   s.homepage     = 'https://github.com/snepo/ios-pods'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
