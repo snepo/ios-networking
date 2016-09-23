@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
   s.author             = { 'Christos Bimpas' => 'christosbimpas@gmail.com' }
   s.platform     = :ios, '9.0'
   s.source       = { :git => 'https://github.com/snepo/ios-pods.git', :tag => s.version }
-  s.source_files  = 'ios-pods/BeaconsFinder/BeaconsFinder/*.swift'
+  s.source_files  = 'ios-pods/master/BeaconsFinder/BeaconsFinder/*.swift'
  
 end
