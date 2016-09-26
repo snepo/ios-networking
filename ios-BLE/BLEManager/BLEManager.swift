@@ -23,6 +23,7 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     let SERVICE_UUID = "00002220-0000-1000-8000-00805f9b34fb" //SERVICE
     let RECEIVE_UUID = "00002221-0000-1000-8000-00805f9b34fb" //CHARACTERISTIC
     let SEND_UUID = "00002222-0000-1000-8000-00805f9b34fb" //CHARACTERISTIC
+    let DEFAULTS_KEY = "bluetooth-uuid-array"
     let GET_INFO = 0x30
     let PLAY_PATTERN = 0x31
     
@@ -30,95 +31,155 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public static let sharedInstance = BLEManager()
     public var delegate: BLEManagerDelegate?
 
-    public var peripheralConnected: Bool!
+    var wxCentralManager: CBCentralManager!
     
-    var _centralManager: CBCentralManager!
-    var _peripheral: CBPeripheral!
+    var advertisingNames: [String]!
     
-    var receiveCharacteristic: CBCharacteristic!
-    var sendCharacteristic: CBCharacteristic!
-    
-    var dataToWrite: [NSData]!
-    var canWrite: Bool?
-    
-    // i.e. "fan jersey", "we-ex"
-    public var advertisedName: String!
-    
+    var peripherals: [WXPeripheral] = []
     
     override init() {
-         //
+
     }
     
-    public func initWithAdvertisedName(name: String) {
-        advertisedName = name
-        _centralManager = CBCentralManager(delegate: self, queue: nil)
+    public func initWithAdvertisingNames(names: [String]) {
+        advertisingNames = names
+        wxCentralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
-    public func getInfo() {
-        let data: [UInt8] = [0xff,0x30]
-        _peripheral.writeValue(NSData.init(bytes: data, length: 2) as Data, for: sendCharacteristic, type: CBCharacteristicWriteType.withResponse)
-    }
+//    public func getInfo() {
+//        let data: [UInt8] = [0xff,0x30]
+//        _peripheral.writeValue(NSData.init(bytes: data, length: 2) as Data, for: sendCharacteristic, type: CBCharacteristicWriteType.withResponse)
+//    }
     
     public func sendData(data: NSData) {
-        dataToWrite.append(data)
+        for wxPeripheral in peripherals {
+            wxPeripheral.dataToWrite.append(data)
+        }
+        self.sendNextCommand()
+    }
+    
+    public func sendDataToPeripheral(data: NSData, wxPeripheral: WXPeripheral) {
+        wxPeripheral.dataToWrite.append(data)
         self.sendNextCommand()
     }
     
     public func cancelConnections() {
-        if (_peripheral != nil) {
-            _centralManager.cancelPeripheralConnection(_peripheral)
-            _peripheral = nil
+        for wxPeripheral in peripherals {
+            wxCentralManager.cancelPeripheralConnection(wxPeripheral.peripheral)
         }
-        _centralManager.stopScan()
+        peripherals.removeAll()
+        peripherals = []
+        wxCentralManager.stopScan()
     }
     
     public func startScanning() {
         self.delegate?.BluetoothIsSearching()
-        dataToWrite = []
-        canWrite = false
-        peripheralConnected = false
-        _peripheral = nil
-        if (_centralManager.state == .poweredOn) {
-            _centralManager.scanForPeripherals(withServices: [CBUUID.init(string: SERVICE_UUID)], options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
+        if (wxCentralManager.state == .poweredOn) {
+            wxCentralManager.scanForPeripherals(withServices: [CBUUID.init(string: SERVICE_UUID)], options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
+            //Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(connectToClosestPeripherals), userInfo:nil, repeats: false)
         }
     }
     
     public func clearPairing() {
-        UserDefaults.standard.setValue("", forKey: "nfl-bluetooth-uuid")
+        UserDefaults.standard.setValue([], forKey: DEFAULTS_KEY)
         UserDefaults.standard.synchronize()
         self.cancelConnections()
         self.startScanning()
     }
     
+    public func peripheralsArray() -> [WXPeripheral] {
+        return peripherals
+    }
+    
     private func paired() -> Bool {
-        let uuidString = UserDefaults.standard.object(forKey: "nfl-bluetooth-uuid") as? String
-        return (uuidString?.characters.count)! > 0
+        let uuidArray = UserDefaults.standard.object(forKey: DEFAULTS_KEY) as? [String]
+        var isPaired: Bool = false
+        for uuidString in uuidArray! {
+            if uuidString.characters.count > 0 {
+                isPaired = true
+            }
+            if isPaired {
+                break
+            }
+        }
+        return isPaired
     }
     
     private func bluetoothEnabled() -> Bool {
-        return _centralManager.state == .poweredOn
+        return wxCentralManager.state == .poweredOn
     }
     
     private func sendNextCommand() {
-        if (_peripheral == nil || !peripheralConnected || sendCharacteristic == nil) {
-            return
-        }
-        
-        if (canWrite)! {
-            if dataToWrite.count > 0 {
-                print("write data to peripheral")
-                let data = dataToWrite.first
-                _peripheral.writeValue(data as! Data, for: sendCharacteristic, type: CBCharacteristicWriteType.withResponse)
-                dataToWrite.removeFirst()
+        for wxPeripheral in peripherals {
+            if (wxPeripheral.canWrite && wxPeripheral.connected && wxPeripheral.sendCharacteristic != nil) {
+                if wxPeripheral.dataToWrite.count > 0 {
+                    print("write data to peripheral")
+                    let data = wxPeripheral.dataToWrite.first
+                    wxPeripheral.peripheral.writeValue(data as! Data, for: wxPeripheral.sendCharacteristic!, type: CBCharacteristicWriteType.withResponse)
+                    wxPeripheral.canWrite = false
+                    wxPeripheral.dataToWrite.removeFirst()
+                }
             }
         }
+       
     }
     
     @available(iOS 10.0, *)
     private func getBluetoothState() -> CBManagerState {
-        return _centralManager.state
+        return wxCentralManager.state
     }
     
+    @objc private func connectToClosestPeripherals() {
+        wxCentralManager.stopScan()
+        let uuidArray = UserDefaults.standard.object(forKey: DEFAULTS_KEY) as? [String]
+        if let array = uuidArray {
+            for uuidString in array {
+                var closestPeripheral: WXPeripheral?
+                if uuidString.characters.count > 0 {
+                    for wxPeripheral in peripherals {
+                        if uuidString.characters.count > 0 {
+                            if wxPeripheral.uuid == uuidString {
+                                closestPeripheral = wxPeripheral
+                            }
+                        } else {
+                            if (closestPeripheral == nil || wxPeripheral.RSSI > (closestPeripheral?.RSSI)!) {
+                                closestPeripheral = wxPeripheral
+                            }
+                        }
+                    }
+                }
+                if let wxPeripheral = closestPeripheral {
+                    wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
+                    
+                    let (uuidExists, amendedArray) = self.uuidExists(uuid: wxPeripheral.uuid)
+                    if !uuidExists {
+                        UserDefaults.standard.set(amendedArray, forKey: DEFAULTS_KEY)
+                        UserDefaults.standard.synchronize()
+                    }
+                }
+            }
+        }
+       
+    }
+    
+    private func uuidExists(uuid: String) -> (uuidExists: Bool, amendedArray: [String]?) {
+        var uuidArray = UserDefaults.standard.object(forKey: DEFAULTS_KEY) as? [String]
+        var uuidExists: Bool = false
+        if let array = uuidArray {
+            for uuidString in array {
+                if uuidString == uuid {
+                    uuidExists = true
+                    break
+                }
+            }
+            if !uuidExists {
+                uuidArray?.append(uuid)
+            }
+        }
+        
+        
+        return (uuidExists, uuidArray)
+    }
     
     // MARK: - CBCentralManagerDelegate
     
@@ -136,14 +197,16 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        let previousUUID = UserDefaults.standard.object(forKey: "nfl-bluetooth-uuid") as? String!
         
         let advertisingName = advertisementData[CBAdvertisementDataLocalNameKey] as? String
-        if advertisingName == advertisedName {
-            if (previousUUID == nil || previousUUID == "" || previousUUID == peripheral.identifier.uuidString) {
-                _peripheral = peripheral
-                _centralManager.stopScan()
-                _centralManager.connect(_peripheral, options: nil)
+        print(advertisingName)
+        for wxAdvertisingName in advertisingNames {
+            
+            if advertisingName == wxAdvertisingName {
+                let wxPeripheral = WXPeripheral.init(peripheral: peripheral, name: wxAdvertisingName, uuid: peripheral.identifier.uuidString, RSSI: RSSI.intValue)
+                peripherals.append(wxPeripheral)
+                wxCentralManager.stopScan()
+                wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
             }
         }
     }
@@ -154,10 +217,21 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
     
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        peripheralConnected = true
         self.delegate?.BluetoothDidConnect()
-        UserDefaults.standard.set(peripheral.identifier.uuidString, forKey: "nfl-bluetooth-uuid")
-        UserDefaults.standard.synchronize()
+        
+        for wxPeripheral in peripherals {
+            if wxPeripheral.uuid == peripheral.identifier.uuidString {
+                wxPeripheral.connected = true
+            }
+        }
+        
+        let (uuidExists, amendedArray) = self.uuidExists(uuid: peripheral.identifier.uuidString)
+
+        if !uuidExists {
+            UserDefaults.standard.set(amendedArray, forKey: DEFAULTS_KEY)
+            UserDefaults.standard.synchronize()
+        }
+        
         peripheral.delegate = self
         peripheral.discoverServices(nil)
         peripheral.discoverServices([CBUUID.init(string: RECEIVE_UUID),CBUUID.init(string: SEND_UUID)])
@@ -181,19 +255,33 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         for characteristic: CBCharacteristic in service.characteristics! {
             if characteristic.uuid.uuidString == "2221" {
-                receiveCharacteristic = characteristic
-                peripheral.setNotifyValue(true, for: receiveCharacteristic)
+                for wxPeripheral in peripherals {
+                    if wxPeripheral.uuid == peripheral.identifier.uuidString {
+                        wxPeripheral.receiveCharacteristic = characteristic
+                        wxPeripheral.peripheral.setNotifyValue(true, for: wxPeripheral.receiveCharacteristic!)
+                        
+                    }
+                }
             } else if characteristic.uuid.uuidString == "2222" {
-                canWrite = true
-                sendCharacteristic = characteristic
+                for wxPeripheral in peripherals {
+                    if wxPeripheral.uuid == peripheral.identifier.uuidString {
+                        wxPeripheral.sendCharacteristic = characteristic
+                        wxPeripheral.canWrite = true
+                    }
+                }
             }
         }
     }
     
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         if error == nil {
-            canWrite = true
+            for wxPeripheral in peripherals {
+                if wxPeripheral.uuid == peripheral.identifier.uuidString {
+                    wxPeripheral.canWrite = true
+                }
+            }
             self.sendNextCommand()
         }
     }
+    
 }

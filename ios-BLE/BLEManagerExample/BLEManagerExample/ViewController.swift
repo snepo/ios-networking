@@ -14,16 +14,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var tryButton: UIButton!
     @IBOutlet weak var rePairButton: UIButton!
     
+    var wxPeripheral: WXPeripheral?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+ 
         tryButton.isEnabled = false
         BLEManager.sharedInstance.delegate = self
-        BLEManager.sharedInstance.initWithAdvertisedName(name: "fan jersey [L]")
+        BLEManager.sharedInstance.initWithAdvertisingNames(names: ["fan jersey [R]","fan jersey [L]"])
         BLEManager.sharedInstance.startScanning()
     }
-    
-   
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -34,6 +34,10 @@ class ViewController: UIViewController {
         if (sender as! NSObject == tryButton) {
             var parameter = NSInteger(1)
             let data = NSData(bytes: &parameter, length: 1)
+//            if let peripheral = wxPeripheral {
+//                BLEManager.sharedInstance.sendDataToPeripheral(data: data, wxPeripheral: peripheral)
+//                return
+//            }
             BLEManager.sharedInstance.sendData(data: data)
         } else {
             tryButton.isEnabled = false
@@ -50,6 +54,10 @@ extension ViewController: BLEManagerDelegate {
     func BluetoothDidConnect() {
         print("BluetoothDidConnect")
         tryButton.isEnabled = true
+        wxPeripheral = BLEManager.sharedInstance.peripheralsArray().last
+        for peripheral in BLEManager.sharedInstance.peripheralsArray() {
+            print(peripheral.peripheral)
+        }
     }
     
     func BluetoothIsSearching() {

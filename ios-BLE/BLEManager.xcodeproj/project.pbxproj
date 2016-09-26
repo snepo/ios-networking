@@ -12,6 +12,8 @@
 		B646C5F51D94AFA2000C3584 /* BLEManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B646C5E71D94AFA2000C3584 /* BLEManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B646C60D1D94B057000C3584 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B646C60C1D94B057000C3584 /* BLEManager.swift */; };
 		B646C60E1D94B057000C3584 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B646C60C1D94B057000C3584 /* BLEManager.swift */; };
+		B66E71A51D98E07800A95354 /* WXPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66E71A41D98E07800A95354 /* WXPeripheral.swift */; };
+		B66E71A61D98E07800A95354 /* WXPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66E71A41D98E07800A95354 /* WXPeripheral.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,7 @@
 		B646C5F21D94AFA2000C3584 /* BLEManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManagerTests.swift; sourceTree = "<group>"; };
 		B646C5F41D94AFA2000C3584 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B646C60C1D94B057000C3584 /* BLEManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
+		B66E71A41D98E07800A95354 /* WXPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WXPeripheral.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,7 @@
 			children = (
 				B646C5E71D94AFA2000C3584 /* BLEManager.h */,
 				B646C60C1D94B057000C3584 /* BLEManager.swift */,
+				B66E71A41D98E07800A95354 /* WXPeripheral.swift */,
 				B646C5E81D94AFA2000C3584 /* Info.plist */,
 			);
 			path = BLEManager;
@@ -203,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B66E71A51D98E07800A95354 /* WXPeripheral.swift in Sources */,
 				B646C60D1D94B057000C3584 /* BLEManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,6 +218,7 @@
 			files = (
 				B646C5F31D94AFA2000C3584 /* BLEManagerTests.swift in Sources */,
 				B646C60E1D94B057000C3584 /* BLEManager.swift in Sources */,
+				B66E71A61D98E07800A95354 /* WXPeripheral.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
