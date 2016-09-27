@@ -11,6 +11,7 @@ initialize
 
         BLEManager.sharedInstance.delegate = self
         BLEManager.sharedInstance.advertisingNames = ["fan jersey [R]","fan jersey [L]"] // this is optional, if advertisingNames not set, the manager will store all peripherals discovered
+        BLEManager.sharedInstance.connectToClosest = false //default set to true
         BLEManager.sharedInstance.initialise()
         BLEManager.sharedInstance.startScanning()
         
