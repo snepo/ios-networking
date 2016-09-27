@@ -9,44 +9,62 @@
 import UIKit
 import BLEManager
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tryButton: UIButton!
     @IBOutlet weak var rePairButton: UIButton!
+    @IBOutlet weak var tableView: UITableView!
     
-    var wxPeripheral: WXPeripheral?
+    var wxPeripherals: [WXPeripheral] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
  
         tryButton.isEnabled = false
         BLEManager.sharedInstance.delegate = self
-        BLEManager.sharedInstance.initWithAdvertisingNames(names: ["fan jersey [R]","fan jersey [L]"])
+        BLEManager.sharedInstance.advertisingNames = ["fan jersey [R]","fan jersey [L]"]
+        BLEManager.sharedInstance.initialise()
         BLEManager.sharedInstance.startScanning()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @IBAction func didTapOnButton(_ sender: AnyObject) {
         if (sender as! NSObject == tryButton) {
             var parameter = NSInteger(1)
             let data = NSData(bytes: &parameter, length: 1)
-//            if let peripheral = wxPeripheral {
-//                BLEManager.sharedInstance.sendDataToPeripheral(data: data, wxPeripheral: peripheral)
-//                return
-//            }
             BLEManager.sharedInstance.sendData(data: data)
         } else {
             tryButton.isEnabled = false
             BLEManager.sharedInstance.clearPairing()
             BLEManager.sharedInstance.startScanning()
         }
-        
+    }
+    
+    //MARK: - UITableViewDelegate
+    
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        let wxPeripheral = wxPeripherals[indexPath.row]
+        cell.textLabel!.text = wxPeripheral.name
+        return cell;
+    }
+    
+    
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return wxPeripherals.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var parameter = NSInteger(1)
+        let data = NSData(bytes: &parameter, length: 1)
+        let wxPeripheral = wxPeripherals[indexPath.row]
+        BLEManager.sharedInstance.sendDataToPeripheral(data: data, wxPeripheral: wxPeripheral)
     }
 }
+
 
 // MARK: - BLEManagerDelegate
 
@@ -54,10 +72,9 @@ extension ViewController: BLEManagerDelegate {
     func BluetoothDidConnect() {
         print("BluetoothDidConnect")
         tryButton.isEnabled = true
-        wxPeripheral = BLEManager.sharedInstance.peripheralsArray().last
-        for peripheral in BLEManager.sharedInstance.peripheralsArray() {
-            print(peripheral.peripheral)
-        }
+        wxPeripherals = []
+        wxPeripherals = BLEManager.sharedInstance.peripheralsArray()
+        tableView.reloadData()
     }
     
     func BluetoothIsSearching() {

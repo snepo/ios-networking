@@ -33,19 +33,17 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
     var wxCentralManager: CBCentralManager!
     
-    var advertisingNames: [String]!
+    public var advertisingNames: [String]!
     
     var peripherals: [WXPeripheral] = []
     
     override init() {
-
+        
     }
     
-    public func initWithAdvertisingNames(names: [String]) {
-        advertisingNames = names
+    public func initialise() {
         wxCentralManager = CBCentralManager(delegate: self, queue: nil)
     }
-    
 //    public func getInfo() {
 //        let data: [UInt8] = [0xff,0x30]
 //        _peripheral.writeValue(NSData.init(bytes: data, length: 2) as Data, for: sendCharacteristic, type: CBCharacteristicWriteType.withResponse)
@@ -76,7 +74,7 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         self.delegate?.BluetoothIsSearching()
         if (wxCentralManager.state == .poweredOn) {
             wxCentralManager.scanForPeripherals(withServices: [CBUUID.init(string: SERVICE_UUID)], options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
-            //Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(connectToClosestPeripherals), userInfo:nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(connectToClosestPeripherals), userInfo:nil, repeats: false)
         }
     }
     
@@ -113,7 +111,6 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         for wxPeripheral in peripherals {
             if (wxPeripheral.canWrite && wxPeripheral.connected && wxPeripheral.sendCharacteristic != nil) {
                 if wxPeripheral.dataToWrite.count > 0 {
-                    print("write data to peripheral")
                     let data = wxPeripheral.dataToWrite.first
                     wxPeripheral.peripheral.writeValue(data as! Data, for: wxPeripheral.sendCharacteristic!, type: CBCharacteristicWriteType.withResponse)
                     wxPeripheral.canWrite = false
@@ -121,13 +118,14 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 }
             }
         }
-       
     }
     
     @available(iOS 10.0, *)
     private func getBluetoothState() -> CBManagerState {
         return wxCentralManager.state
     }
+    
+    // MARK: - Timer
     
     @objc private func connectToClosestPeripherals() {
         wxCentralManager.stopScan()
@@ -148,6 +146,7 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                         }
                     }
                 }
+                
                 if let wxPeripheral = closestPeripheral {
                     wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
                     
@@ -176,8 +175,6 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 uuidArray?.append(uuid)
             }
         }
-        
-        
         return (uuidExists, uuidArray)
     }
     
@@ -198,14 +195,49 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
+        for wxPeripheral in peripherals {
+            if wxPeripheral.peripheral.identifier.uuidString == peripheral.identifier.uuidString {
+                wxPeripheral.RSSI = RSSI.intValue
+            }
+        }
+        
         let advertisingName = advertisementData[CBAdvertisementDataLocalNameKey] as? String
-        print(advertisingName)
-        for wxAdvertisingName in advertisingNames {
-            
-            if advertisingName == wxAdvertisingName {
+        
+        // this will run if we have set specific advertising names
+        if let names = advertisingNames {
+            for wxAdvertisingName in names {
+                if advertisingName == wxAdvertisingName {
+                    let wxPeripheral = WXPeripheral.init(peripheral: peripheral, name: wxAdvertisingName, uuid: peripheral.identifier.uuidString, RSSI: RSSI.intValue)
+                    var peripheralExists: Bool = false
+                    
+                    for storedPeripheral in peripherals {
+                        if (storedPeripheral.name == wxPeripheral.name && storedPeripheral.uuid == wxPeripheral.uuid) {
+                            peripheralExists = true
+                            break
+                        }
+                    }
+                    if !peripheralExists {
+                        peripherals.append(wxPeripheral)
+                    }
+                    
+                    wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
+                }
+            }
+        } else {
+            // it will connect to any peripheral available
+            if let wxAdvertisingName = advertisingName {
                 let wxPeripheral = WXPeripheral.init(peripheral: peripheral, name: wxAdvertisingName, uuid: peripheral.identifier.uuidString, RSSI: RSSI.intValue)
-                peripherals.append(wxPeripheral)
-                wxCentralManager.stopScan()
+                var peripheralExists: Bool = false
+                
+                for storedPeripheral in peripherals {
+                    if (storedPeripheral.name == wxPeripheral.name && storedPeripheral.uuid == wxPeripheral.uuid) {
+                        peripheralExists = true
+                        break
+                    }
+                }
+                if !peripheralExists {
+                    peripherals.append(wxPeripheral)
+                }
                 wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
             }
         }
