@@ -18,9 +18,10 @@ send data
 
         var parameter = NSInteger(1)
         let data = NSData(bytes: &parameter, length: 1)
+        
         BLEManager.sharedInstance.sendData(data: data) // send data to all stored peripherals
         
-         BLEManager.sharedInstance.sendDataToPeripheral(data: data, wxPeripheral: wxPeripheral) // send data to a specific peripheral
+        BLEManager.sharedInstance.sendDataToPeripheral(data: data, wxPeripheral: wxPeripheral) // send data to a specific peripheral
     
     
 reset
