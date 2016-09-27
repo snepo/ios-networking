@@ -36,7 +36,6 @@ delegate
           extension ViewController: BLEManagerDelegate {
              func BluetoothDidConnect() {
                   print("BluetoothDidConnect")
-                 tryButton.isEnabled = true
               }
               func BluetoothIsSearching() {
                  print("BluetoothIsSearching")
