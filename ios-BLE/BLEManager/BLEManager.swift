@@ -24,8 +24,6 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     let RECEIVE_UUID = "00002221-0000-1000-8000-00805f9b34fb" //CHARACTERISTIC
     let SEND_UUID = "00002222-0000-1000-8000-00805f9b34fb" //CHARACTERISTIC
     let DEFAULTS_KEY = "bluetooth-uuid-array"
-    let GET_INFO = 0x30
-    let PLAY_PATTERN = 0x31
     
     // MARK: - Properties
     public static let sharedInstance = BLEManager()
@@ -34,7 +32,7 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     var wxCentralManager: CBCentralManager!
     
     public var advertisingNames: [String]!
-    
+    public var connectToClosest: Bool = true
     var peripherals: [WXPeripheral] = []
     
     override init() {
@@ -44,10 +42,11 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func initialise() {
         wxCentralManager = CBCentralManager(delegate: self, queue: nil)
     }
-//    public func getInfo() {
-//        let data: [UInt8] = [0xff,0x30]
-//        _peripheral.writeValue(NSData.init(bytes: data, length: 2) as Data, for: sendCharacteristic, type: CBCharacteristicWriteType.withResponse)
-//    }
+    
+    public func getInfoFor(wxReripheral: WXPeripheral) {
+        let data: [UInt8] = [0xff,0x30]
+        wxReripheral.peripheral.writeValue(NSData.init(bytes: data, length: 2) as Data, for: wxReripheral.sendCharacteristic!, type: CBCharacteristicWriteType.withResponse)
+    }
     
     public func sendData(data: NSData) {
         for wxPeripheral in peripherals {
@@ -74,7 +73,9 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         self.delegate?.BluetoothIsSearching()
         if (wxCentralManager.state == .poweredOn) {
             wxCentralManager.scanForPeripherals(withServices: [CBUUID.init(string: SERVICE_UUID)], options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
-            Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(connectToClosestPeripherals), userInfo:nil, repeats: false)
+            if connectToClosest {
+                Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(connectToClosestPeripherals), userInfo:nil, repeats: false)
+            }
         }
     }
     
@@ -112,6 +113,7 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             if (wxPeripheral.canWrite && wxPeripheral.connected && wxPeripheral.sendCharacteristic != nil) {
                 if wxPeripheral.dataToWrite.count > 0 {
                     let data = wxPeripheral.dataToWrite.first
+                    print("write data for", wxPeripheral.name)
                     wxPeripheral.peripheral.writeValue(data as! Data, for: wxPeripheral.sendCharacteristic!, type: CBCharacteristicWriteType.withResponse)
                     wxPeripheral.canWrite = false
                     wxPeripheral.dataToWrite.removeFirst()
@@ -129,36 +131,31 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     
     @objc private func connectToClosestPeripherals() {
         wxCentralManager.stopScan()
-        let uuidArray = UserDefaults.standard.object(forKey: DEFAULTS_KEY) as? [String]
-        if let array = uuidArray {
-            for uuidString in array {
-                var closestPeripheral: WXPeripheral?
-                if uuidString.characters.count > 0 {
-                    for wxPeripheral in peripherals {
-                        if uuidString.characters.count > 0 {
-                            if wxPeripheral.uuid == uuidString {
-                                closestPeripheral = wxPeripheral
-                            }
-                        } else {
-                            if (closestPeripheral == nil || wxPeripheral.RSSI > (closestPeripheral?.RSSI)!) {
-                                closestPeripheral = wxPeripheral
-                            }
-                        }
-                    }
-                }
+        var dictionary: [String:[WXPeripheral]] = [:]
+        for wxPeripheral in peripherals {
+            if let array = dictionary[wxPeripheral.name] {
+                var newArray = array
+                newArray.append(wxPeripheral)
+                dictionary.updateValue(newArray, forKey: wxPeripheral.name)
+            } else {
+                 dictionary.updateValue([wxPeripheral], forKey: wxPeripheral.name)
+            }
+        }
+        
+        for (_, wxPeripheralsArray) in dictionary {
+            var closestPeripheral: WXPeripheral!
+            for wxPeripheral in wxPeripheralsArray {
                 
-                if let wxPeripheral = closestPeripheral {
-                    wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
-                    
-                    let (uuidExists, amendedArray) = self.uuidExists(uuid: wxPeripheral.uuid)
-                    if !uuidExists {
-                        UserDefaults.standard.set(amendedArray, forKey: DEFAULTS_KEY)
-                        UserDefaults.standard.synchronize()
+                if (closestPeripheral == nil) {
+                    closestPeripheral = wxPeripheral
+                } else {
+                    if wxPeripheral.RSSI > closestPeripheral.RSSI {
+                        closestPeripheral = wxPeripheral
                     }
                 }
             }
+            wxCentralManager.connect(closestPeripheral.peripheral, options: nil)
         }
-       
     }
     
     private func uuidExists(uuid: String) -> (uuidExists: Bool, amendedArray: [String]?) {
@@ -203,13 +200,12 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         
         let advertisingName = advertisementData[CBAdvertisementDataLocalNameKey] as? String
         
-        // this will run if we have set specific advertising names
         if let names = advertisingNames {
             for wxAdvertisingName in names {
                 if advertisingName == wxAdvertisingName {
                     let wxPeripheral = WXPeripheral.init(peripheral: peripheral, name: wxAdvertisingName, uuid: peripheral.identifier.uuidString, RSSI: RSSI.intValue)
-                    var peripheralExists: Bool = false
                     
+                    var peripheralExists: Bool = false
                     for storedPeripheral in peripherals {
                         if (storedPeripheral.name == wxPeripheral.name && storedPeripheral.uuid == wxPeripheral.uuid) {
                             peripheralExists = true
@@ -219,12 +215,14 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                     if !peripheralExists {
                         peripherals.append(wxPeripheral)
                     }
+                    if !connectToClosest {
+                        wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
+                    }
                     
-                    wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
                 }
             }
         } else {
-            // it will connect to any peripheral available
+            // it will add any peripheral available
             if let wxAdvertisingName = advertisingName {
                 let wxPeripheral = WXPeripheral.init(peripheral: peripheral, name: wxAdvertisingName, uuid: peripheral.identifier.uuidString, RSSI: RSSI.intValue)
                 var peripheralExists: Bool = false
@@ -235,11 +233,19 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                         break
                     }
                 }
+                
                 if !peripheralExists {
                     peripherals.append(wxPeripheral)
                 }
-                wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
+                
+                if !connectToClosest {
+                    wxCentralManager.connect(wxPeripheral.peripheral, options: nil)
+                }
             }
+        }
+       
+        peripherals.sort { (peripheral1, peripheral2) -> Bool in
+            peripheral1.name > peripheral2.name
         }
     }
     

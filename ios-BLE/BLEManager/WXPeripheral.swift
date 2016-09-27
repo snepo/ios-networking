@@ -15,6 +15,7 @@ public class WXPeripheral: NSObject {
     public let uuid: String
     public var RSSI: Int
     public var connected: Bool = false
+    public var isClosest: Bool = true
     public var receiveCharacteristic: CBCharacteristic? = nil
     public var sendCharacteristic: CBCharacteristic? = nil
     public var dataToWrite: [NSData] = []

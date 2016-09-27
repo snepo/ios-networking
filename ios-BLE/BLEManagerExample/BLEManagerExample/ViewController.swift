@@ -23,6 +23,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tryButton.isEnabled = false
         BLEManager.sharedInstance.delegate = self
         BLEManager.sharedInstance.advertisingNames = ["fan jersey [R]","fan jersey [L]"]
+        BLEManager.sharedInstance.connectToClosest = false
         BLEManager.sharedInstance.initialise()
         BLEManager.sharedInstance.startScanning()
     }
@@ -45,9 +46,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
         let wxPeripheral = wxPeripherals[indexPath.row]
         cell.textLabel!.text = wxPeripheral.name
+        cell.detailTextLabel!.text = wxPeripheral.uuid
+        if !wxPeripheral.connected {
+            cell.textLabel?.textColor = UIColor.lightGray
+            cell.detailTextLabel!.text = "not connected"
+        }
         return cell;
     }
-    
     
     private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -61,10 +66,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         var parameter = NSInteger(1)
         let data = NSData(bytes: &parameter, length: 1)
         let wxPeripheral = wxPeripherals[indexPath.row]
-        BLEManager.sharedInstance.sendDataToPeripheral(data: data, wxPeripheral: wxPeripheral)
+        if !wxPeripheral.connected {
+            let alert = UIAlertController(title: "Alert", message: "This peripheral is not connected", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            BLEManager.sharedInstance.sendDataToPeripheral(data: data, wxPeripheral: wxPeripheral)
+        }
+        
     }
 }
-
 
 // MARK: - BLEManagerDelegate
 
