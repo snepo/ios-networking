@@ -8,24 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		B64DC1161EE131BD000291CD /* GarmentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B64DC1141EE131BD000291CD /* GarmentManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B64DC1211EE13236000291CD /* ActiveGarment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC11E1EE13236000291CD /* ActiveGarment.swift */; };
-		B64DC1221EE13236000291CD /* ActiveGarment+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC11F1EE13236000291CD /* ActiveGarment+Response.swift */; };
-		B64DC1231EE13236000291CD /* Garment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC1201EE13236000291CD /* Garment.swift */; };
-		B64DC1271EE1323A000291CD /* GarmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC1241EE1323A000291CD /* GarmentManager.swift */; };
-		B64DC1281EE1323A000291CD /* OutfitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC1251EE1323A000291CD /* OutfitManager.swift */; };
-		B64DC1291EE1323A000291CD /* OutfitManager+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC1261EE1323A000291CD /* OutfitManager+Commands.swift */; };
+		B64DC1301EE13775000291CD /* ActiveGarment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC12A1EE13775000291CD /* ActiveGarment.swift */; };
+		B64DC1311EE13775000291CD /* ActiveGarment+Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC12B1EE13775000291CD /* ActiveGarment+Response.swift */; };
+		B64DC1321EE13775000291CD /* Garment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC12C1EE13775000291CD /* Garment.swift */; };
+		B64DC1331EE13775000291CD /* GarmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC12D1EE13775000291CD /* GarmentManager.swift */; };
+		B64DC1341EE13775000291CD /* OutfitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC12E1EE13775000291CD /* OutfitManager.swift */; };
+		B64DC1351EE13775000291CD /* OutfitManager+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64DC12F1EE13775000291CD /* OutfitManager+Commands.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B64DC1111EE131BD000291CD /* GarmentManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GarmentManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B64DC1141EE131BD000291CD /* GarmentManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GarmentManager.h; sourceTree = "<group>"; };
 		B64DC1151EE131BD000291CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B64DC11E1EE13236000291CD /* ActiveGarment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveGarment.swift; path = Models/ActiveGarment.swift; sourceTree = "<group>"; };
-		B64DC11F1EE13236000291CD /* ActiveGarment+Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ActiveGarment+Response.swift"; path = "Models/ActiveGarment+Response.swift"; sourceTree = "<group>"; };
-		B64DC1201EE13236000291CD /* Garment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Garment.swift; path = Models/Garment.swift; sourceTree = "<group>"; };
-		B64DC1241EE1323A000291CD /* GarmentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GarmentManager.swift; path = Managers/GarmentManager.swift; sourceTree = "<group>"; };
-		B64DC1251EE1323A000291CD /* OutfitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutfitManager.swift; path = Managers/OutfitManager.swift; sourceTree = "<group>"; };
-		B64DC1261EE1323A000291CD /* OutfitManager+Commands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OutfitManager+Commands.swift"; path = "Managers/OutfitManager+Commands.swift"; sourceTree = "<group>"; };
+		B64DC12A1EE13775000291CD /* ActiveGarment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveGarment.swift; sourceTree = "<group>"; };
+		B64DC12B1EE13775000291CD /* ActiveGarment+Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActiveGarment+Response.swift"; sourceTree = "<group>"; };
+		B64DC12C1EE13775000291CD /* Garment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Garment.swift; sourceTree = "<group>"; };
+		B64DC12D1EE13775000291CD /* GarmentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GarmentManager.swift; sourceTree = "<group>"; };
+		B64DC12E1EE13775000291CD /* OutfitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutfitManager.swift; sourceTree = "<group>"; };
+		B64DC12F1EE13775000291CD /* OutfitManager+Commands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OutfitManager+Commands.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,32 +58,16 @@
 		B64DC1131EE131BD000291CD /* GarmentManager */ = {
 			isa = PBXGroup;
 			children = (
-				B64DC11D1EE131C8000291CD /* Managers */,
-				B64DC11C1EE131C3000291CD /* Models */,
+				B64DC12A1EE13775000291CD /* ActiveGarment.swift */,
+				B64DC12B1EE13775000291CD /* ActiveGarment+Response.swift */,
+				B64DC12C1EE13775000291CD /* Garment.swift */,
+				B64DC12D1EE13775000291CD /* GarmentManager.swift */,
+				B64DC12E1EE13775000291CD /* OutfitManager.swift */,
+				B64DC12F1EE13775000291CD /* OutfitManager+Commands.swift */,
 				B64DC1141EE131BD000291CD /* GarmentManager.h */,
 				B64DC1151EE131BD000291CD /* Info.plist */,
 			);
 			path = GarmentManager;
-			sourceTree = "<group>";
-		};
-		B64DC11C1EE131C3000291CD /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				B64DC11E1EE13236000291CD /* ActiveGarment.swift */,
-				B64DC11F1EE13236000291CD /* ActiveGarment+Response.swift */,
-				B64DC1201EE13236000291CD /* Garment.swift */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		B64DC11D1EE131C8000291CD /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				B64DC1241EE1323A000291CD /* GarmentManager.swift */,
-				B64DC1251EE1323A000291CD /* OutfitManager.swift */,
-				B64DC1261EE1323A000291CD /* OutfitManager+Commands.swift */,
-			);
-			name = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,12 +151,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B64DC1271EE1323A000291CD /* GarmentManager.swift in Sources */,
-				B64DC1211EE13236000291CD /* ActiveGarment.swift in Sources */,
-				B64DC1221EE13236000291CD /* ActiveGarment+Response.swift in Sources */,
-				B64DC1231EE13236000291CD /* Garment.swift in Sources */,
-				B64DC1291EE1323A000291CD /* OutfitManager+Commands.swift in Sources */,
-				B64DC1281EE1323A000291CD /* OutfitManager.swift in Sources */,
+				B64DC1331EE13775000291CD /* GarmentManager.swift in Sources */,
+				B64DC1301EE13775000291CD /* ActiveGarment.swift in Sources */,
+				B64DC1311EE13775000291CD /* ActiveGarment+Response.swift in Sources */,
+				B64DC1321EE13775000291CD /* Garment.swift in Sources */,
+				B64DC1351EE13775000291CD /* OutfitManager+Commands.swift in Sources */,
+				B64DC1341EE13775000291CD /* OutfitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
