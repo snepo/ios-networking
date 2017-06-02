@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
  
-  s.name         = 'GarmentManager'
+  s.name         = 'ios-garment-manager'
   s.version      = '1.0'
   s.summary      = 'Garment Manager'
   s.homepage     = 'https://github.com/snepo/ios-pods'
