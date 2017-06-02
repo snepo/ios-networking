@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
   s.author             = { 'Christos Bimpas' => 'christosbimpas@gmail.com' }
   s.platform     = :ios, '10.0'
   s.source       = { :git => 'https://github.com/snepo/ios-pods.git' }
-  s.source_files = 'ios-garment-manager/GarmentManager/*.swift'
+  s.source_files = 'ios-garment-manager/GarmentManager/GarmentManager/*'
  
 end
