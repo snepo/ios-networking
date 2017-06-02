@@ -297,7 +297,6 @@ public class BLEManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                     if wxPeripheral.uuid == peripheral.identifier.uuidString {
                         wxPeripheral.receiveCharacteristic = characteristic
                         wxPeripheral.peripheral.setNotifyValue(true, for: wxPeripheral.receiveCharacteristic!)
-                        
                     }
                 }
             } else if characteristic.uuid.uuidString == "2222" {

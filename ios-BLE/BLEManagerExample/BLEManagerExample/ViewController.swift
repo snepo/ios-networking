@@ -22,8 +22,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
  
         tryButton.isEnabled = false
         BLEManager.sharedInstance.delegate = self
-        BLEManager.sharedInstance.advertisingNames = ["fan jersey [R]","fan jersey [L]"]
-        BLEManager.sharedInstance.connectToClosest = false
+        //BLEManager.sharedInstance.advertisingNames = ["fan jersey [R]","fan jersey [L]"]
+        BLEManager.sharedInstance.connectToClosest = true
         BLEManager.sharedInstance.initialise()
         BLEManager.sharedInstance.startScanning()
     }
